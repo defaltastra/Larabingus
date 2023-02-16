@@ -16,7 +16,7 @@
       </p>
 
       <div class="body-content">
-        {{$post->body}}
+        {!! $post->body !!} 
       </div>
     </div>
 </x-layout>
