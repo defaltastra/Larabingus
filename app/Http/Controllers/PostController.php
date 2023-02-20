@@ -8,7 +8,13 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    //
+    public function delete(Post $post){
+        if (auth()->user()->cannot('delete',$post)){
+            return 'You cannot do that';
+        }
+        $post->delete();
+        return redirect('/profile/'. auth()->user()->username)->with('success','Post successfully deleted.');
+    }
     public function viewSinglePost(Post $post){
         $ourHTML = strip_tags(Str::markdown($post->body),'<p><ul><ol><li><strong><em><br><em>');
         $post['body'] = $ourHTML;
