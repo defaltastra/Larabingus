@@ -27,3 +27,5 @@ Route::post('/create-post', [PostController::class, 'storeNewPost'])->middleware
 Route::get('/post/{post}', [PostController::class, 'viewSinglePost']);
 
 
+// profile related routes
+Route::get('/profile/{user:username}', [UserController::class, 'profile']);
