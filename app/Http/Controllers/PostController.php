@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+
     public function delete(Post $post){
         if (auth()->user()->cannot('delete',$post)){
             return 'You cannot do that';
