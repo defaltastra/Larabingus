@@ -18,12 +18,21 @@ class UserController extends Controller
         $filename = $user->id . '-' . uniqid() . '.jpg';
        $img = Image::make($request->file('avatar'))->fit(120)->encode('jpg');
         Storage::put('public/avatars/'. $filename,$img);
+        
+        $oldavatar = $user->avatar;
+        $user->avatar = $filename;
+        $user->save();
+
+        if ($oldavatar != "/fallback-avatar.jpg"){
+            Storage::delete(str_replace("/storage/","public/",$oldavatar));
+        }
+        return back()->with('success','Avatar changed');
     }
     public function showAvatarForm(){
         return view('avatar-form');
     }
     public function profile(User $user){
-        return view('profile-posts', ['username'=>$user->username,'posts'=> $user->posts()->latest()->get(), 'postscount'=> $user->posts()->count()]);
+        return view('profile-posts', ['avatar'=> $user->avatar , 'username'=>$user->username,'posts'=> $user->posts()->latest()->get(), 'postscount'=> $user->posts()->count()]);
     }
     public function logout() {
         auth()->logout();
