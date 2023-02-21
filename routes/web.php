@@ -18,11 +18,14 @@ use App\Http\Controllers\UserController;
 Route::get('/admins-only', function(){
     return 'you cannot view this page';
 })->middleware('can:visit:AdminPages');
+
 // User related routes
 Route::get('/', [UserController::class, "showCorrectHomepage"])->name('login');
 Route::post('/register', [UserController::class, 'register'])->middleware('guest');
 Route::post('/login', [UserController::class, 'login'])->middleware('guest');
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
+Route::get('/manage-avatar',[UserController::class,'showAvatarForm']);
+Route::post('/manage-avatar',[UserController::class,'storeAvatar']);
 
 // Blog post related routes
 Route::get('/create-post', [PostController::class, 'showCreateForm'])->middleware('mustbeloggedin');
